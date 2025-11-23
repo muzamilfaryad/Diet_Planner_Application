@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/ai_service.dart';
 import '../services/huggingface_ai_service.dart';
 
 class AIRecipeGeneratorScreen extends StatefulWidget {
@@ -10,7 +11,8 @@ class AIRecipeGeneratorScreen extends StatefulWidget {
 }
 
 class _AIRecipeGeneratorScreenState extends State<AIRecipeGeneratorScreen> {
-  final _aiService = HuggingFaceAIService.instance;
+  final _hfService = HuggingFaceAIService.instance;
+  final _geminiService = AIService.instance;
   final _ingredientsController = TextEditingController();
   final List<String> _ingredients = [];
 
@@ -50,26 +52,39 @@ class _AIRecipeGeneratorScreenState extends State<AIRecipeGeneratorScreen> {
       return;
     }
 
-    if (!_aiService.isInitialized) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'AI service not initialized. Please set up your API key.',
-          ),
-        ),
-      );
-      return;
-    }
-
     setState(() => _isLoading = true);
 
     try {
-      final recipe = await _aiService.generateRecipe(
+      Map<String, dynamic>? recipe;
+      if (_geminiService.isConfigured) {
+        recipe = await _geminiService.generateRecipe(
+          ingredients: _ingredients,
+          dietaryRestrictions: _dietaryRestrictions,
+          cuisineType: _cuisineType,
+          targetCalories: _targetCalories,
+        );
+      }
+
+      recipe ??= await _hfService.generateRecipe(
         ingredients: _ingredients,
         dietaryRestrictions: _dietaryRestrictions,
         cuisineType: _cuisineType,
         targetCalories: _targetCalories,
       );
+
+      if (recipe == null) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                'Unable to generate a recipe right now. Please try again.',
+              ),
+            ),
+          );
+        }
+        setState(() => _isLoading = false);
+        return;
+      }
 
       setState(() {
         _generatedRecipe = recipe;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import '../services/ai_service.dart';
 import '../services/huggingface_ai_service.dart';
 
 final Logger _logger = Logger();
@@ -13,7 +14,8 @@ class AINutritionAdvisorScreen extends StatefulWidget {
 }
 
 class _AINutritionAdvisorScreenState extends State<AINutritionAdvisorScreen> {
-  final _aiService = HuggingFaceAIService.instance;
+  final _hfService = HuggingFaceAIService.instance;
+  final _geminiService = AIService.instance;
   final _messageController = TextEditingController();
   final _scrollController = ScrollController();
   final List<ChatMessage> _messages = [];
@@ -24,7 +26,9 @@ class _AINutritionAdvisorScreenState extends State<AINutritionAdvisorScreen> {
     super.initState();
 
     // Show AI status in welcome message
-    final aiStatus = _aiService.isInitialized
+    final aiStatus = _geminiService.isConfigured
+        ? '🌐 Cloud AI Mode (Gemini)'
+        : _hfService.isInitialized
         ? '🌐 Cloud AI Mode (Hugging Face)'
         : '💾 Local AI Mode (Offline)';
 
@@ -73,9 +77,14 @@ class _AINutritionAdvisorScreenState extends State<AINutritionAdvisorScreen> {
 
     try {
       _logger.d('📤 Sending question to AI service...');
-      _logger.d('AI Service initialized: ${_aiService.isInitialized}');
+      _logger.d('Gemini configured: ${_geminiService.isConfigured}');
 
-      final response = await _aiService.getNutritionAdvice(question);
+      String? response;
+      if (_geminiService.isConfigured) {
+        response = await _geminiService.getDietAdvice(question);
+      }
+
+      response ??= await _hfService.getNutritionAdvice(question);
 
       if (response != null && response.isNotEmpty) {
         _logger.d('✅ AI Response received (${response.length} chars)');
