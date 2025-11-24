@@ -21,15 +21,14 @@ class FirebaseAuthService {
       return null;
     }
   }
-  
-  // Google Sign-In instance
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
-    clientId: '1037372126451-v41cqtb0rtad7r2j2jvlr7fb4d02s7b7.apps.googleusercontent.com',
-    scopes: [
-      'email',
-      'profile',
-    ],
-  );
+
+  // Google Sign-In configuration
+  static const List<String> _googleScopes = ['email', 'profile'];
+  static const String _googleClientId =
+      '1037372126451-v41cqtb0rtad7r2j2jvlr7fb4d02s7b7.apps.googleusercontent.com';
+
+  final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
+  Future<void>? _googleInitFuture;
 
   /// Get current user
   User? get currentUser => auth?.currentUser;
@@ -41,7 +40,7 @@ class FirebaseAuthService {
   bool get isSignedIn => auth?.currentUser != null;
 
   /// Stream of auth state changes
-  Stream<User?> get authStateChanges => 
+  Stream<User?> get authStateChanges =>
       auth?.authStateChanges() ?? Stream.value(null);
 
   /// Sign up with email and password
@@ -51,21 +50,21 @@ class FirebaseAuthService {
     required String displayName,
   }) async {
     if (auth == null) throw Exception('Firebase not initialized');
-    
+
     try {
       final credential = await auth!.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      
+
       // Update display name
       await credential.user?.updateDisplayName(displayName);
       await credential.user?.reload();
-      
+
       if (kDebugMode) {
         print('User signed up: ${credential.user?.uid}');
       }
-      
+
       return credential;
     } on FirebaseAuthException catch (e) {
       if (kDebugMode) {
@@ -86,17 +85,17 @@ class FirebaseAuthService {
     required String password,
   }) async {
     if (auth == null) throw Exception('Firebase not initialized');
-    
+
     try {
       final credential = await auth!.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      
+
       if (kDebugMode) {
         print('User signed in: ${credential.user?.uid}');
       }
-      
+
       return credential;
     } on FirebaseAuthException catch (e) {
       if (kDebugMode) {
@@ -114,7 +113,7 @@ class FirebaseAuthService {
   /// Sign out
   Future<void> signOut() async {
     if (auth == null) return;
-    
+
     try {
       await auth!.signOut();
       if (kDebugMode) {
@@ -131,7 +130,7 @@ class FirebaseAuthService {
   /// Send password reset email
   Future<void> sendPasswordResetEmail(String email) async {
     if (auth == null) throw Exception('Firebase not initialized');
-    
+
     try {
       await auth!.sendPasswordResetEmail(email: email);
       if (kDebugMode) {
@@ -148,7 +147,7 @@ class FirebaseAuthService {
   /// Delete current user account
   Future<void> deleteAccount() async {
     if (auth == null) return;
-    
+
     try {
       await auth!.currentUser?.delete();
       if (kDebugMode) {
@@ -162,34 +161,89 @@ class FirebaseAuthService {
     }
   }
 
+  Future<void> _ensureGoogleInitialized() async {
+    if (_googleInitFuture != null) {
+      await _googleInitFuture;
+      return;
+    }
+    _googleInitFuture = _googleSignIn.initialize(clientId: _googleClientId);
+    await _googleInitFuture;
+  }
+
+  Future<GoogleSignInAccount?> _authenticateWithGoogle() async {
+    await _ensureGoogleInitialized();
+
+    GoogleSignInAccount? account;
+    try {
+      final Future<GoogleSignInAccount?>? restored = _googleSignIn
+          .attemptLightweightAuthentication();
+      if (restored != null) {
+        account = await restored;
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Lightweight Google auth failed: $e');
+      }
+    }
+
+    if (account != null) {
+      return account;
+    }
+
+    if (!_googleSignIn.supportsAuthenticate()) {
+      throw Exception(
+        'GoogleSignIn.authenticate is not supported on this platform. '
+        'Use the platform-specific sign-in button instead.',
+      );
+    }
+
+    return _googleSignIn.authenticate(scopeHint: _googleScopes);
+  }
+
+  Future<String?> _fetchGoogleAccessToken(GoogleSignInAccount account) async {
+    try {
+      final GoogleSignInClientAuthorization? cached = await account
+          .authorizationClient
+          .authorizationForScopes(_googleScopes);
+      if (cached != null) {
+        return cached.accessToken;
+      }
+      final GoogleSignInClientAuthorization refreshed = await account
+          .authorizationClient
+          .authorizeScopes(_googleScopes);
+      return refreshed.accessToken;
+    } catch (e) {
+      if (kDebugMode) {
+        print('Unable to fetch Google access token: $e');
+      }
+      return null;
+    }
+  }
+
   /// Sign in with Google
   Future<UserCredential?> signInWithGoogle() async {
     if (auth == null) throw Exception('Firebase not initialized');
-    
+
     try {
-      // Trigger the Google Sign-In flow
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-      
+      final GoogleSignInAccount? googleUser = await _authenticateWithGoogle();
+
       if (googleUser == null) {
-        // User cancelled the sign-in
         if (kDebugMode) {
-          print('Google sign-in cancelled by user');
+          print('Google sign-in cancelled or unavailable');
         }
         return null;
       }
 
-      // Obtain the auth details from the request
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth = googleUser.authentication;
+      final String? accessToken = await _fetchGoogleAccessToken(googleUser);
 
-      // Create a new credential
       final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
+        accessToken: accessToken,
         idToken: googleAuth.idToken,
       );
 
-      // Sign in to Firebase with the Google credential
       final userCredential = await auth!.signInWithCredential(credential);
-      
+
       if (kDebugMode) {
         print('Google sign-in successful: ${userCredential.user?.uid}');
         print('User email: ${userCredential.user?.email}');
@@ -200,6 +254,13 @@ class FirebaseAuthService {
     } on FirebaseAuthException catch (e) {
       if (kDebugMode) {
         print('Google sign-in error: ${e.code} - ${e.message}');
+      }
+      rethrow;
+    } on GoogleSignInException catch (e) {
+      if (kDebugMode) {
+        print(
+          'Google sign-in exception: ${e.code} - ${e.description ?? e.toString()}',
+        );
       }
       rethrow;
     } catch (e) {
@@ -243,11 +304,11 @@ class FirebaseAuthService {
         return 'An error occurred: ${e.message}';
     }
   }
-  
+
   /// Get user-friendly error message for general exceptions
   String getGeneralErrorMessage(dynamic error) {
     final errorString = error.toString().toLowerCase();
-    
+
     if (errorString.contains('people api')) {
       return 'Google Sign-In setup incomplete. Please use Email/Password for now.';
     }
@@ -260,7 +321,7 @@ class FirebaseAuthService {
     if (errorString.contains('network')) {
       return 'Network error. Please check your connection.';
     }
-    
+
     return 'Unable to sign in with Google. Please use Email/Password instead.';
   }
 }
