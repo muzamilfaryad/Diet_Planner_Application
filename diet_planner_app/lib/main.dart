@@ -5,12 +5,11 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:logger/logger.dart';
 
 import 'screens/home_screen_redesigned.dart';
-// auth screens imported where needed
 import 'services/food_database_service.dart';
-// Firebase auth service imported where needed in screens/services
 import 'services/huggingface_ai_service.dart';
 import 'config/ai_config.dart';
 import 'models/food_item.dart';
+import 'features/calculator/presentation/screens/bmr_calculator_input_screen.dart';
 
 final _logger = Logger();
 
@@ -236,9 +235,8 @@ class _MyAppState extends State<MyApp> {
         textTheme: textTheme,
         primaryTextTheme: primaryTextTheme,
       ),
-      // Show home screen directly - Firebase auth optional
-      // Users can access Profile screen to sign in if they want cloud sync
       home: const HomeScreenRedesigned(),
+      routes: {'/calculator': (_) => const BmrCalculatorInputScreen()},
     );
   }
 }
