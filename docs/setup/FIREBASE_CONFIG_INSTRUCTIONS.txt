@@ -1,0 +1,117 @@
+🔥 FIREBASE CONFIGURATION INSTRUCTIONS
+==========================================
+
+STEP 1: Get your Firebase configuration values from:
+Firebase Console → Project Settings → Your apps → Web app
+
+You should have copied values that look like:
+
+  apiKey: "AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXX"
+  authDomain: "your-project-id.firebaseapp.com"
+  projectId: "your-project-id"
+  storageBucket: "your-project-id.appspot.com"
+  messagingSenderId: "123456789012"
+  appId: "1:123456789012:web:abcdef123456"
+
+==========================================
+
+STEP 2: Open this file in your IDE:
+📁 diet_planner_app/lib/main.dart
+
+==========================================
+
+STEP 3: Find lines 14-26 (the Firebase initialization)
+
+CURRENTLY IT LOOKS LIKE THIS:
+------------------------------
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize Firebase (optional - app works without it in guest mode)
+  try {
+    // TODO: Replace with your Firebase configuration from Firebase Console
+    // For now, the app will run in guest mode without Firebase
+    // await Firebase.initializeApp(
+    //   options: const FirebaseOptions(
+    //     apiKey: 'YOUR_API_KEY',
+    //     appId: 'YOUR_APP_ID',
+    //     messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
+    //     projectId: 'YOUR_PROJECT_ID',
+    //   ),
+    // );
+    print('Running in guest mode - Firebase not configured');
+  } catch (e) {
+    print('Firebase initialization skipped: $e');
+  }
+  
+  _seedLocalDatabase();
+  runApp(const MyApp());
+}
+
+==========================================
+
+STEP 4: Replace lines 14-29 with this (using YOUR values):
+------------------------------
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize Firebase
+  try {
+    await Firebase.initializeApp(
+      options: const FirebaseOptions(
+        apiKey: 'YOUR_API_KEY_HERE',              // ← Replace with your apiKey
+        appId: 'YOUR_APP_ID_HERE',                // ← Replace with your appId
+        messagingSenderId: 'YOUR_SENDER_ID_HERE', // ← Replace with your messagingSenderId
+        projectId: 'YOUR_PROJECT_ID_HERE',        // ← Replace with your projectId
+        authDomain: 'YOUR_AUTH_DOMAIN_HERE',      // ← Replace with your authDomain
+        storageBucket: 'YOUR_STORAGE_BUCKET_HERE', // ← Replace with your storageBucket
+      ),
+    );
+    print('Firebase initialized successfully! 🔥');
+  } catch (e) {
+    print('Firebase initialization error: $e');
+  }
+  
+  _seedLocalDatabase();
+  runApp(const MyApp());
+}
+
+==========================================
+
+EXAMPLE with real values (yours will be different):
+------------------------------
+await Firebase.initializeApp(
+  options: const FirebaseOptions(
+    apiKey: 'AIzaSyBGHJ5K_abc123def456ghi789',
+    appId: '1:123456789012:web:abcdef123456',
+    messagingSenderId: '123456789012',
+    projectId: 'diet-planner-12345',
+    authDomain: 'diet-planner-12345.firebaseapp.com',
+    storageBucket: 'diet-planner-12345.appspot.com',
+  ),
+);
+
+==========================================
+
+✅ CHECKLIST:
+- [ ] Copied Firebase config from Firebase Console
+- [ ] Opened lib/main.dart in IDE
+- [ ] Replaced apiKey with your value
+- [ ] Replaced appId with your value
+- [ ] Replaced messagingSenderId with your value
+- [ ] Replaced projectId with your value
+- [ ] Replaced authDomain with your value
+- [ ] Replaced storageBucket with your value
+- [ ] Saved the file (Ctrl+S)
+- [ ] Ready to run!
+
+==========================================
+
+STEP 5: Save and run:
+Run this command in terminal:
+  flutter run -d chrome
+
+If you see "Firebase initialized successfully! 🔥" in the console,
+you're all set! 🎉
+
+==========================================
