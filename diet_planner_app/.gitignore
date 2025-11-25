@@ -54,9 +54,11 @@ app.*.map.json
 # Sensitive Configuration Files
 **/firebase_options.dart
 api_keys.dart
-*.env
-.env.*
 secrets.json
+.env
+
+# Archive artifacts
+*.zip
 
 # Firebase
 .firebase/

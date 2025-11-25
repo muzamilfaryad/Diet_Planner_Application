@@ -474,6 +474,22 @@ class _HomeScreenRedesignedState extends State<HomeScreenRedesigned>
                         ),
                       ],
                     ),
+                    const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildAIFeatureCard(
+                            'BMR & TDEE',
+                            'Dial in calories & macros',
+                            Icons.calculate_rounded,
+                            const Color(0xFFFFB703),
+                            () {
+                              Navigator.of(context).pushNamed('/calculator');
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
