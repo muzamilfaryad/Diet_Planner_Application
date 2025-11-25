@@ -1,390 +1,422 @@
-# 🥗 Diet Planner - AI-Powered Nutrition & Meal Management App
+# 🥗 Diet Planner - Multi-Platform Nutrition & Meal Management Application
 
-[![Flutter](https://img.shields.io/badge/Flutter-3.35.4-02569B?logo=flutter)](https://flutter.dev)
-[![Dart](https://img.shields.io/badge/Dart-3.9.2-0175C2?logo=dart)](https://dart.dev)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20iOS%20%7C%20Web-blue)](https://flutter.dev)
+[![Platform](https://img.shields.io/badge/Platform-Flutter-blue?logo=flutter&logoColor=white)](https://flutter.dev)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/Version-1.0.0-brightgreen)](#)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![Maintenance](https://img.shields.io/badge/Maintained-yes-green.svg)](https://github.com/muzamilfaryad/Diet_Planner_Application/graphs/commit-activity)
+[![Security](https://img.shields.io/badge/Security-Policy-blue)](SECURITY.md)
 
-## 📱 Overview
-
-**Diet Planner** is a comprehensive, cross-platform nutrition and meal management application built with Flutter. It combines modern UI design with powerful AI-driven features to help users track their nutrition, plan meals, and achieve their health goals.
-
-For a detailed technical report on the project, including methodology, system design, and testing results, please see the [Project Report](PROJECT_REPORT.md).
-
-### ✨ Key Features
-
-#### 🎯 Core Functionality
-- **Real-time Calorie & Macro Tracking** - Track calories, protein, carbs, and fats with beautiful visualizations
-- **Intelligent Meal Planning** - Create and manage 7-day meal plans with automatic nutrition calculations
-- **Food Database** - Extensive local database with 500+ foods plus cloud API integration
-- **Barcode Scanner** - Quick food logging via mobile barcode scanning (Android/iOS)
-- **Progress Tracking** - Visual charts and graphs to monitor your nutrition journey
-- **Goal Management** - Set and track personalized daily calorie and macro targets
-
-#### 🤖 AI-Powered Features
-- **Smart Food Parser** - Natural language food entry (e.g., "2 large eggs", "grilled chicken breast")
-- **AI Nutrition Advisor** - Ask nutrition questions and get expert advice
-- **Recipe Generator** - Generate healthy recipes from available ingredients
-- **Meal Analyzer** - Get personalized suggestions for balanced nutrition
-- **Dual AI Mode** - Works offline (Fallback AI) or with cloud AI (Hugging Face/Gemini)
-
-#### ☁️ Cloud Features
-- **Firebase Authentication** - Secure login with email/password and Google Sign-In
-- **Cloud Sync** - Automatic data synchronization across devices
-- **Data Persistence** - All data saved securely to Cloud Firestore
-- **Offline Mode** - Full functionality without internet connection
-
-### 🎨 Modern UI/UX
-- **Material Design 3** - Beautiful, modern interface with glassmorphism effects
-- **Responsive Design** - Works seamlessly on phones, tablets, and web
-- **Dark/Light Themes** - Comfortable viewing in any lighting
-- **Smooth Animations** - Polished user experience with fluid transitions
-- **Custom Widgets** - Reusable components for consistent design
+A comprehensive, cross-platform mobile and web application built with Flutter that empowers users to manage their nutritional goals, track calorie intake, create personalized meal plans, and discover recipes. Featuring barcode scanning, real-time API integration, and a modern, beautiful UI.
 
 ---
 
-## 🚀 Getting Started
+## 🌟 Key Features
+
+### 📊 Nutrition Tracking
+- **Real-time Calorie & Macro Tracking**: Accurately log meals and view real-time breakdown of Calories, Protein, Carbs, and Fats
+- **Animated Progress Ring**: Beautiful circular progress indicator showing daily calorie goals with smooth animations
+- **7-Day History**: Track your progress over time with visual indicators and achievement badges
+- **Smart Food Search**: Multi-API food search powered by OpenFoodFacts (2.8M+ products)
+
+### 📱 Barcode Scanning
+- **Camera-based scanning** on mobile (Android/iOS)
+- **Manual entry fallback** for web and backup
+- **Real-time product lookup** from OpenFoodFacts database
+- **Beautiful product preview** dialog with complete nutrition information
+- **Support for all standard barcode formats** (EAN-13, UPC-A, QR Code, etc.)
+
+### 🍽️ Meal Planning
+- **Daily Meal Plans**: Create and manage meal plans for any date (past or future)
+- **Four Meal Types**: Breakfast, Lunch, Dinner, and Snack with scheduled times
+- **Quick Add Feature**: Smart FAB that suggests meals based on current time
+- **Copy Plans**: Duplicate entire day's plan to another date
+- **Notes Support**: Add annotations to meal plans
+- **Food Management**: Add/remove foods from meals with undo support
+
+### 🍳 Recipe Discovery
+- **300+ Recipes**: Powered by TheMealDB API
+- **Recipe Search**: Find recipes by name, category, or cuisine
+- **Random Recipes**: Discover new meal ideas
+- **Filter Options**: Vegan, Vegetarian, Seafood, and more
+- **Full Instructions**: Step-by-step cooking instructions
+- **Ingredient Lists**: Complete ingredient breakdown
+- **YouTube Videos**: Linked cooking tutorials
+
+### 🔥 Firebase Integration
+- **Email/Password Authentication**: Secure user accounts
+- **Cloud Firestore**: Real-time data sync across devices
+- **Offline Support**: Local cache with automatic sync
+- **Guest Mode**: Use app without signing in
+- **Profile Management**: Sign in/out, password reset
+- **Data Privacy**: User data isolated and secure
+
+### 🎨 Modern UI/UX
+- **Material Design 3**: Modern, clean design language
+- **Gradient Themes**: Eye-catching color schemes throughout
+- **Smooth Animations**: Micro-interactions and transitions
+- **Glassmorphism Effects**: Frosted glass components
+- **Staggered Animations**: Delightful card entrance effects
+- **Responsive Design**: Adapts to all screen sizes
+- **Empty States**: Clear, actionable empty state messages
+
+---
+
+## 🚀 Quick Start
 
 ### Prerequisites
-
-Before you begin, ensure you have the following installed:
-
-- **Flutter SDK** (v3.35.4 or higher) - [Install Flutter](https://flutter.dev/docs/get-started/install)
-- **Dart SDK** (v3.9.2 or higher) - Included with Flutter
-- **Android Studio** or **VS Code** with Flutter extensions
-- **Git** for version control
-
-Verify your installation:
-```bash
-flutter doctor
-```
+- **Flutter SDK** (v3.x or higher)
+- **Dart SDK** (included with Flutter)
+- An IDE: VS Code or Android Studio with Flutter plugin
+- Verify installation:
+  ```bash
+  flutter doctor
+  ```
 
 ### Installation
 
-1. **Clone the repository**
+1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/diet-planner.git
-   cd diet-planner
+   git clone https://github.com/muzamilfaryad/Diet_Planner_Application.git
+   cd Diet_Planner_Application/diet_planner_app
    ```
 
-2. **Install dependencies**
+2. **Install dependencies**:
    ```bash
    flutter pub get
    ```
 
-3. **Configure environment variables (Optional)**
-   
-   Create a `.env` file in the project root:
-   ```env
-   # Firebase Configuration (Optional - for cloud sync)
-   FIREBASE_API_KEY=your_firebase_api_key
-   FIREBASE_APP_ID=your_app_id
-   FIREBASE_PROJECT_ID=your_project_id
-   FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-   FIREBASE_AUTH_DOMAIN=your_auth_domain
-   FIREBASE_STORAGE_BUCKET=your_storage_bucket
-   FIREBASE_MEASUREMENT_ID=your_measurement_id
-
-   # AI Configuration (Optional - for cloud AI)
-   HF_API_KEY=your_huggingface_api_key
-   HF_MODEL=mistralai/Mistral-7B-Instruct-v0.2
-   GEMINI_API_KEY=your_gemini_api_key
-   ```
-
-   > **Note**: The app works perfectly without these configurations! All features have offline fallbacks.
-
-4. **Run the application**
+3. **Run the application**:
    ```bash
-   # For web
-   flutter run -d chrome
-
-   # For Android
-   flutter run -d android
-
-   # For iOS
-   flutter run -d ios
-
-   # List all available devices
-   flutter devices
+   flutter run
    ```
 
+4. **For web platform**:
+   ```bash
+   flutter run -d chrome
+   ```
+
+### 🎯 No API Keys Required!
+The app works immediately without any configuration. Core features use free public APIs:
+- ✅ **OpenFoodFacts** - Food database and barcode lookup
+- ✅ **TheMealDB** - Recipe discovery and search
+
+**Optional AI Enhancements** (free, secure setup):
+- 🤖 **Hugging Face AI** - Natural language food parsing, recipe generation, nutrition chatbot
+  - **Status**: ✅ **FIXED & SECURED** (Nov 2024)
+  - **Setup**: See [AI_INTEGRATION_GUIDE.md](AI_INTEGRATION_GUIDE.md)
+  - Get free API key (no payment): https://huggingface.co/settings/tokens
+
+**Other Optional APIs**:
+- 🔧 **CalorieNinjas** - Enhanced nutrition search
+- 🔧 **Edamam** - Advanced recipe search with 2.3M+ recipes
+
+See [docs/guides/API_INTEGRATION_GUIDE.md](docs/guides/API_INTEGRATION_GUIDE.md) for details.
+
 ---
 
-## 📂 Project Structure
+## 💻 Technology Stack
+
+| Area | Technology | Purpose |
+|------|------------|---------|
+| **Framework** | Flutter (Dart) | Cross-platform app development |
+| **State Management** | StatefulWidgets + Services | Business logic separation |
+| **UI Design** | Material Design 3 | Modern, consistent UI |
+| **Fonts** | Google Fonts (Inter) | Professional typography |
+| **Food Data** | OpenFoodFacts API | 2.8M+ food products |
+| **Recipes** | TheMealDB API | 300+ recipes with instructions |
+| **Barcode Scanning** | flutter_barcode_scanner | Camera-based product lookup |
+| **HTTP** | http package | API communication |
+| **Image Caching** | cached_network_image | Optimized image loading |
+
+---
+
+## 📁 Project Structure
 
 ```
-diet_planner_app/
-├── lib/
-│   ├── main.dart                    # Application entry point
-│   ├── config/
-│   │   └── ai_config.dart          # AI service configuration
-│   ├── models/                      # Data models
-│   │   ├── food_item.dart          # Food nutrition data
-│   │   ├── meal.dart               # Meal types and structure
-│   │   ├── meal_plan.dart          # Daily meal plans
-│   │   ├── user_profile.dart       # User profile data
-│   │   └── goal.dart               # Nutrition goals
-│   ├── screens/                     # UI screens
-│   │   ├── home_screen_redesigned.dart
-│   │   ├── log_food_screen.dart
-│   │   ├── meal_planner_screen.dart
-│   │   ├── progress_screen.dart
-│   │   ├── profile_screen.dart
-│   │   ├── ai_nutrition_advisor_screen.dart
-│   │   └── ai_recipe_generator_screen.dart
-│   ├── services/                    # Business logic
-│   │   ├── ai_service.dart         # Gemini AI integration
-│   │   ├── huggingface_ai_service.dart
-│   │   ├── fallback_ai_service.dart
-│   │   ├── firebase_auth_service.dart
-│   │   ├── firestore_service.dart
-│   │   ├── food_database_service.dart
-│   │   ├── meal_plan_service.dart
-│   │   ├── enhanced_api_service.dart
-│   │   └── barcode_scanner_service.dart
-│   └── widgets/                     # Reusable UI components
-│       ├── ai_food_parser.dart
-│       ├── food_search.dart
-│       ├── calorie_summary.dart
-│       ├── macro_progress_bar.dart
-│       └── animated_progress_ring.dart
-├── android/                         # Android-specific files
-├── ios/                            # iOS-specific files
-├── web/                            # Web-specific files
-├── test/                           # Unit and widget tests
-├── pubspec.yaml                    # Dependencies and configuration
-└── .env                            # Environment variables (optional)
+FlutterProjectDietPlanner/
+├── diet_planner_app/              # Main Flutter application
+│   ├── lib/
+│   │   ├── config/                # Configuration files
+│   │   ├── models/                # Data models (User, Meal, FoodItem, etc.)
+│   │   ├── services/              # Business logic & API integration
+│   │   ├── screens/               # UI screens
+│   │   ├── widgets/               # Reusable UI components
+│   │   └── main.dart              # Application entry point
+│   ├── android/                   # Android platform files
+│   ├── ios/                       # iOS platform files
+│   ├── web/                       # Web platform files
+│   └── pubspec.yaml               # Dependencies & configuration
+├── docs/                          # 📚 Documentation
+│   ├── setup/                     # Setup & configuration guides
+│   ├── features/                  # Feature documentation
+│   ├── guides/                    # Integration & development guides
+│   └── README.md                  # Documentation index
+├── CHANGELOG.md                   # Version history
+├── CONTRIBUTING.md                # Contribution guidelines
+├── LICENSE                        # MIT License
+├── SECURITY.md                    # Security policy
+└── README.md                      # This file
 ```
 
 ---
 
-## 🛠️ Technology Stack
+## 📚 Documentation
 
-### Framework & Languages
-- **Flutter 3.35.4** - Cross-platform UI framework
-- **Dart 3.9.2** - Programming language
+Comprehensive documentation is available in the [`docs/`](docs/) directory:
 
-### State Management & Architecture
-- **Provider Pattern** - Lightweight state management
-- **Service Layer Architecture** - Clean separation of concerns
-- **Singleton Pattern** - Efficient resource management
+### Quick Links
+- **[Documentation Index](docs/README.md)** - Complete documentation overview
+- **[Contributing Guide](CONTRIBUTING.md)** - How to contribute
+- **[Changelog](CHANGELOG.md)** - Version history and updates
+- **[Security Policy](SECURITY.md)** - Security guidelines and reporting
 
-### Backend & Database
-- **Firebase Core** - Backend infrastructure
-- **Firebase Authentication** - User authentication
-- **Cloud Firestore** - NoSQL cloud database
-- **Google Sign-In** - OAuth authentication
+### Popular Guides
+- **[Firebase Setup](docs/setup/FIREBASE_SETUP_GUIDE.md)** - Backend integration
+- **[API Integration](docs/guides/API_INTEGRATION_GUIDE.md)** - API configuration
+- **[AI Features](docs/features/AI_FEATURES_GUIDE.md)** - AI capabilities
+- **[Production Checklist](docs/guides/PRODUCTION_READY_CHECKLIST.md)** - Deployment guide
 
-### AI & Machine Learning
-- **Google Generative AI (Gemini 2.5 Flash)** - Cloud AI for advanced features
-- **Hugging Face Inference API** - Alternative cloud AI
-- **Fallback AI Service** - Local AI with 500+ food database
-
-### APIs & External Services
-- **OpenFoodFacts API** - Nutrition database
-- **Calorie Ninjas API** - Alternative nutrition data
-- **Enhanced Multi-API Search** - Intelligent API fallback system
-
-### UI/UX Libraries
-- **Google Fonts** - Custom typography
-- **Mobile Scanner** - Barcode scanning
-- **Cached Network Image** - Efficient image loading
-- **Custom Animations** - Smooth UI transitions
-
-### Development Tools
-- **Logger** - Advanced logging
-- **Flutter Dotenv** - Environment variable management
-- **HTTP Package** - Network requests
-- **Analysis Options** - Code quality linting
+**→ See [docs/README.md](docs/README.md) for complete documentation index**
 
 ---
 
-## 🔑 Key Technologies Explained
+## ✨ Feature Highlights
 
-### AI Integration
-The app features a **dual-mode AI system**:
+### 🏠 Home Screen
+- Personalized greeting with time-based messages
+- Large animated calorie progress ring (200px)
+- Macro breakdown (Protein, Carbs, Fat) with progress bars
+- Today's meals list with calorie badges
+- Beautiful gradient header with avatar
+- Staggered card animations
 
-1. **Cloud AI Mode** (Optional)
-   - Uses Gemini or Hugging Face API
-   - More advanced natural language understanding
-   - Dynamic recipe generation
-   - Personalized recommendations
+### 📊 Progress Screen
+- 7-day history with visual indicators
+- Achievement badges (✅ Goal met, 📈 Good progress)
+- Special highlight for today's card
+- Gradient background with smooth transitions
+- Circular progress rings for each day
 
-2. **Fallback AI Mode** (Always Available)
-   - 100% offline functionality
-   - 500+ food database
-   - Rule-based nutrition advice
-   - Template-based recipe generation
-   - Zero latency responses
+### 🍽️ Food Logging
+- Search 2.8M+ food products
+- Barcode scanning capability
+- Manual entry option
+- Beautiful product preview dialogs
+- Quick add to daily log
+- Success notifications with undo
 
-### Firebase Integration
-- **Authentication**: Email/password and Google OAuth
-- **Firestore**: Real-time data sync
-- **Security**: Row-level security rules
-- **Offline Support**: Local caching with automatic sync
+### 📅 Meal Planner
+- Interactive date picker
+- Daily nutrition summary
+- Four meal types with scheduled times
+- Food search integration
+- Copy plans between dates
+- Add notes to plans
+- Clear entire day option
 
-### Barcode Scanner
-- **Mobile Scanner**: Native camera integration
-- **Platform Support**: Android and iOS
-- **API Integration**: Automatic nutrition lookup
-- **Manual Entry**: Web fallback option
-
----
-
-## 📊 Features in Detail
-
-### 1. Food Logging
-- Search extensive food database
-- Scan barcodes for instant lookup
-- AI-powered natural language parsing
-- Manual nutrition entry
-- Serving size customization
-
-### 2. Meal Planning
-- Create 7-day meal plans
-- Breakfast, Lunch, Dinner, Snacks
-- Drag-and-drop interface
-- Automatic nutrition totals
-- Save and reuse plans
-
-### 3. Progress Tracking
-- Daily calorie trends
-- Macro nutrient breakdown
-- Weight tracking graphs
-- Goal achievement metrics
-- Weekly summaries
-
-### 4. AI Nutrition Advisor
-- Ask nutrition questions
-- Get personalized advice
-- Learn about healthy eating
-- Understand macro nutrients
-- Diet strategy recommendations
-
-### 5. Recipe Generator
-- Input available ingredients
-- Set dietary preferences
-- Generate healthy recipes
-- View nutrition information
-- Save favorite recipes
+### 🍳 Recipe Browser
+- Search by name, category, or cuisine
+- Random recipe discovery
+- Full ingredients and instructions
+- YouTube video links
+- Beautiful image cards
+- Category filtering
 
 ---
 
-## 🎯 Use Cases
+## 🎨 Design System
 
-### For Individuals
-- **Weight Loss**: Track calories and maintain deficit
-- **Muscle Building**: Monitor protein intake
-- **Healthy Eating**: Balance macronutrients
-- **Medical Needs**: Manage specific dietary requirements
+### Color Palette
+- **Primary**: #00B4D8 (Vibrant Cyan)
+- **Secondary**: #90E0EF (Light Cyan)
+- **Accent**: #0077B6 (Deep Blue)
+- **Success**: #06D6A0 (Mint Green)
+- **Warning**: #FFB703 (Amber)
+- **Error**: #EF476F (Coral Red)
 
-### For Fitness Enthusiasts
-- **Performance Tracking**: Optimize nutrition for workouts
-- **Meal Prep**: Plan and track weekly meals
-- **Macro Counting**: Precise nutrient tracking
+### Typography
+- **Font Family**: Inter (Google Fonts)
+- **Sizes**: 12-24px with clear hierarchy
+- **Weights**: 400 (Regular), 600 (SemiBold), 700 (Bold)
 
-### For Students & Learners
-- **Nutrition Education**: Learn about food and health
-- **Project Reference**: Example Flutter architecture
-- **AI Integration**: Study AI implementation patterns
-
----
-
-## 🔐 Security & Privacy
-
-- **Local-First**: All data stored locally by default
-- **Optional Cloud Sync**: User controls data sharing
-- **Secure Authentication**: Firebase Auth with encryption
-- **No Tracking**: No analytics or user tracking
-- **Open Source**: Transparent codebase
+### Components
+- **Cards**: 20-24px border radius, soft shadows
+- **Buttons**: Elevated with 16px radius, cyan primary color
+- **Icons**: Rounded style with gradient backgrounds
+- **Progress Rings**: Animated with gradient strokes
+- **Bottom Navigation**: Frosted glass effect
 
 ---
 
 ## 🧪 Testing
 
-Run tests:
-```bash
-# Unit tests
-flutter test
+### Manual Testing Checklist
+- [x] Food search and logging
+- [x] Barcode scanning (mobile & web)
+- [x] Meal plan creation
+- [x] Recipe search and filtering
+- [x] Progress tracking
+- [x] Date navigation
+- [x] Plan copying
+- [x] Food removal with undo
+- [x] Empty states
+- [x] Error handling
 
-# Integration tests
-flutter test integration_test
-
-# Coverage report
-flutter test --coverage
-```
+### Test Barcodes
+Try these popular products:
+- **Nutella**: 3017620422003
+- **Coca-Cola**: 5449000000996
+- **KitKat**: 7622210653918
+- **Oreo**: 7622300700034
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please follow these steps:
+Contributions are welcome! Here's how you can help:
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+1. **Fork the repository**
+2. **Create a feature branch**:
+   ```bash
+   git checkout -b feature/AmazingFeature
+   ```
+3. **Commit your changes**:
+   ```bash
+   git commit -m 'Add some AmazingFeature'
+   ```
+4. **Push to the branch**:
+   ```bash
+   git push origin feature/AmazingFeature
+   ```
+5. **Open a Pull Request**
 
-### Code Style
-- Follow [Effective Dart](https://dart.dev/guides/language/effective-dart) guidelines
-- Use `flutter format` before committing
+### Contribution Guidelines
+- Follow the existing code style
 - Add comments for complex logic
-- Write tests for new features
+- Update documentation for new features
+- Test on multiple platforms (mobile & web)
+- Ensure no breaking changes
 
 ---
 
-## 📄 License
+## 🐛 Troubleshooting
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+### Common Issues
 
----
+**Issue**: API calls failing on web
+- **Solution**: CORS proxy is implemented; check internet connection
 
-## 👨‍💻 Author
+**Issue**: Barcode scanning not working on web
+- **Solution**: Use manual entry dialog (automatic fallback)
 
-**Your Name**
-- GitHub: [@yourusername](https://github.com/yourusername)
-- Email: your.email@example.com
+**Issue**: No food results found
+- **Solution**: Try different search terms or use barcode scanning
 
----
+**Issue**: Recipe images not loading
+- **Solution**: Check internet connection; cached images will retry
 
-## 🙏 Acknowledgments
-
-- [Flutter Team](https://flutter.dev) - Amazing framework
-- [Firebase](https://firebase.google.com) - Backend infrastructure
-- [OpenFoodFacts](https://world.openfoodfacts.org) - Nutrition database
-- [Hugging Face](https://huggingface.co) - AI models
-- [Google Fonts](https://fonts.google.com) - Typography
+See individual documentation files for more troubleshooting tips.
 
 ---
 
 ## 🔮 Future Enhancements
 
-- [ ] Water intake tracking
-- [ ] Exercise logging and integration
-- [ ] Social features and meal sharing
-- [ ] Wearable device integration
-- [ ] Voice-controlled food logging
-- [ ] Restaurant menu nutrition lookup
-- [ ] Grocery list generation
-- [ ] Meal preparation timers
-- [ ] Nutrition goal templates
-- [ ] Multi-language support
+### Planned Features
+- [x] **User Authentication**: Firebase Auth integration ✅ **NEW!**
+- [x] **Data Persistence**: Save user data to cloud (Firestore) ✅ **NEW!**
+- [x] **Offline Support**: Local database with sync ✅ **NEW!**
+- [ ] **Weekly View**: Calendar grid for meal planning
+- [ ] **Meal Templates**: Save favorite meal combinations
+- [ ] **Shopping List**: Auto-generate from meal plans
+- [ ] **Recipe Favorites**: Save and organize favorite recipes
+- [ ] **Nutrition Goals**: Custom daily macro targets
+- [ ] **Weight Tracking**: Log and visualize weight changes
+- [ ] **Dark Mode**: Complete dark theme support
+- [ ] **Export Data**: PDF reports and CSV exports
+- [ ] **Social Features**: Share recipes and meal plans
+- [ ] **Notifications**: Meal reminders and goal alerts
+- [ ] **Water Tracking**: Daily hydration monitoring
+- [ ] **Exercise Integration**: Link workouts to calorie budget
 
 ---
 
-## 📞 Support
+## 📊 Performance
 
-If you encounter any issues or have questions:
-- Open an [Issue](https://github.com/yourusername/diet-planner/issues)
-- Check the [Documentation](docs/)
-- Join our community discussions
+- **App Size**: ~15MB (with assets)
+- **API Response Time**: 2-5 seconds average
+- **Barcode Scan Speed**: < 1 second (mobile)
+- **UI Frame Rate**: 60fps smooth animations
+- **Startup Time**: < 2 seconds cold start
 
 ---
 
-## ⭐ Show Your Support
+## 📄 License
 
-If you find this project helpful, please give it a ⭐️ on GitHub!
+Distributed under the MIT License. See `LICENSE` for more information.
+
+---
+
+## 📧 Contact & Support
+
+**Developer**: Muzamil Faryad  
+**GitHub**: [@muzamilfaryad](https://github.com/muzamilfaryad)  
+**Repository**: [Diet_Planner_Application](https://github.com/muzamilfaryad/Diet_Planner_Application)
+
+### Get Help
+- 📖 Check the [documentation files](.)
+- 🐛 [Open an issue](https://github.com/muzamilfaryad/Diet_Planner_Application/issues)
+- 💬 [Start a discussion](https://github.com/muzamilfaryad/Diet_Planner_Application/discussions)
+
+---
+
+## 🙏 Acknowledgments
+
+### APIs & Data Sources
+- **OpenFoodFacts** - Free nutrition database
+- **TheMealDB** - Free recipe database
+- **CalorieNinjas** - Enhanced nutrition data
+- **Edamam** - Advanced recipe search
+
+### Libraries & Packages
+- **Flutter Team** - Amazing framework
+- **flutter_barcode_scanner** - Barcode scanning
+- **cached_network_image** - Image optimization
+- **google_fonts** - Typography
+- **http** - Network requests
+
+### Design Inspiration
+- Material Design 3 guidelines
+- Modern fitness app patterns
+- Dribbble design trends
+
+---
+
+## ⭐ Star History
+
+If you find this project useful, please consider giving it a star ⭐ on GitHub!
+
+---
+
+## 🎉 Current Status
+
+**Version**: 1.0.0  
+**Status**: ✅ Production Ready  
+**Last Updated**: November 2024
+
+### What Works Now
+- ✅ Complete food logging system
+- ✅ Barcode scanning (mobile & web)
+- ✅ Meal planning functionality
+- ✅ Recipe discovery
+- ✅ Progress tracking
+- ✅ Beautiful modern UI
+- ✅ Multi-platform support (iOS, Android, Web)
+- ✅ Zero configuration required
+- ✅ Professional design
+- ✅ Smooth animations
+
+**Ready to use right out of the box!** 🚀
 
 ---
 

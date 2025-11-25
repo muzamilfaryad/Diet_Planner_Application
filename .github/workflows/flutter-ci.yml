@@ -1,0 +1,112 @@
+# GitHub Actions workflow for Flutter CI/CD
+# This workflow is triggered on push and pull requests to main branch
+
+name: Flutter CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  # Analyze and test the Flutter application
+  analyze-and-test:
+    name: Analyze & Test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.16.0'
+        channel: 'stable'
+        cache: true
+        
+    - name: Install dependencies
+      working-directory: ./diet_planner_app
+      run: flutter pub get
+      
+    - name: Verify formatting
+      working-directory: ./diet_planner_app
+      run: dart format --output=none --set-exit-if-changed .
+      
+    - name: Analyze project source
+      working-directory: ./diet_planner_app
+      run: flutter analyze
+      
+    - name: Run tests
+      working-directory: ./diet_planner_app
+      run: flutter test --coverage
+      
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        files: ./diet_planner_app/coverage/lcov.info
+        flags: unittests
+        name: codecov-umbrella
+
+  # Build Android APK
+  build-android:
+    name: Build Android
+    needs: analyze-and-test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.16.0'
+        channel: 'stable'
+        cache: true
+        
+    - name: Install dependencies
+      working-directory: ./diet_planner_app
+      run: flutter pub get
+      
+    - name: Build APK
+      working-directory: ./diet_planner_app
+      run: flutter build apk --release
+      
+    - name: Upload APK artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: release-apk
+        path: diet_planner_app/build/app/outputs/flutter-apk/app-release.apk
+
+  # Build Web
+  build-web:
+    name: Build Web
+    needs: analyze-and-test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.16.0'
+        channel: 'stable'
+        cache: true
+        
+    - name: Install dependencies
+      working-directory: ./diet_planner_app
+      run: flutter pub get
+      
+    - name: Build Web
+      working-directory: ./diet_planner_app
+      run: flutter build web --release
+      
+    - name: Upload Web artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: web-build
+        path: diet_planner_app/build/web/

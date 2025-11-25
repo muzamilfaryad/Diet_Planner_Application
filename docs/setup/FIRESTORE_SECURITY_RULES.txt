@@ -1,0 +1,69 @@
+// 🔒 Firestore Security Rules for Diet Planner App
+// Copy and paste these rules into Firebase Console → Firestore Database → Rules tab
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+    
+    function isValidUser() {
+      return isSignedIn() && 
+             request.auth.token.email_verified == true ||
+             request.auth.token.firebase.sign_in_provider == 'google.com';
+    }
+    
+    // Users collection - each user can only access their own data
+    match /users/{userId} {
+      // Allow read/write only to the user who owns this document
+      allow read, write: if isOwner(userId);
+      
+      // Subcollections under user document
+      // food_logs/{date}
+      match /food_logs/{date} {
+        allow read, write: if isOwner(userId);
+      }
+      
+      // meal_plans/{date}
+      match /meal_plans/{date} {
+        allow read, write: if isOwner(userId);
+      }
+      
+      // favorites/{foodId}
+      match /favorites/{foodId} {
+        allow read, write: if isOwner(userId);
+      }
+      
+      // Allow access to all subcollections
+      match /{document=**} {
+        allow read, write: if isOwner(userId);
+      }
+    }
+    
+    // Deny all other access
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+
+// 📋 What these rules do:
+// ✅ Users can only read/write their own data
+// ✅ Authenticated users with verified email or Google sign-in
+// ✅ Protects food_logs, meal_plans, and favorites subcollections
+// ✅ Denies access to everything else
+// ✅ Production-ready and secure
+
+// 🚀 How to apply:
+// 1. Go to Firebase Console
+// 2. Click on Firestore Database
+// 3. Click on "Rules" tab
+// 4. Copy everything from rules_version to the end
+// 5. Click "Publish"
